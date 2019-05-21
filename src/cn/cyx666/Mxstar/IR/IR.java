@@ -753,10 +753,8 @@ public class IR{
                         int pushCallerNumber = 0;
                         for (PhysicalRegister physicalRegister: function.getCallerRegisterList()) {
                             if (physicalRegister.isArg6() && physicalRegister.getArg6Index() < function.getParameters().size()) continue;
-                            if (callee.getRecursiveRegisterSet().contains(physicalRegister)) {
-                                ++pushCallerNumber;
-                                instruction.addFirst(new PushInstruction(instruction.getParentBasicBlock(), physicalRegister));
-                            }
+                            ++pushCallerNumber;
+                            instruction.addFirst(new PushInstruction(instruction.getParentBasicBlock(), physicalRegister));
                         }
                         int pushArg6Number = min(function.getParameters().size(), 6);
                         for (int i = 0; i < pushArg6Number; ++i) {
@@ -819,9 +817,7 @@ public class IR{
                         }
                         for (PhysicalRegister physicalRegister: function.getCallerRegisterList()) {
                             if (physicalRegister.isArg6() && physicalRegister.getArg6Index() < function.getParameters().size()) continue;
-                            if (callee.getRecursiveRegisterSet().contains(physicalRegister)) {
-                                instruction.addLast(new PopInstruction(instruction.getParentBasicBlock(), physicalRegister));
-                            }
+                            instruction.addLast(new PopInstruction(instruction.getParentBasicBlock(), physicalRegister));
                         }
                         for (int i = 0; i < pushArg6Number; ++i) {
                             instruction.addLast(new PopInstruction(instruction.getParentBasicBlock(), NASMRegisterSet.arg6.get(i)));
