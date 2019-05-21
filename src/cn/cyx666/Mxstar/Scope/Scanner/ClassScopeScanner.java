@@ -25,6 +25,7 @@ public class ClassScopeScanner extends ScopeScanner {
     public void visit(ClassDeclarationNode node) {
         ClassEntity entity = (ClassEntity) globalScope.getCheck(node.position(), node.getName(), Scope.classKey(node.getName()));
         currentScope = entity.getScope();
+        currentOffset = 0;
         for (VariableDeclarationNode declaration : node.getVariables()) declaration.accept(this);
         entity.setSize(currentOffset);
     }
